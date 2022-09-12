@@ -1,61 +1,56 @@
-package ru.vood.redisdemo.controller;
+package ru.vood.redisdemo.controller
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import ru.vood.redisdemo.model.Movie;
-import ru.vood.redisdemo.repository.RedisRepository;
-
-import java.util.HashMap;
-import java.util.Map;
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
+import org.springframework.stereotype.Controller
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestMethod
+import org.springframework.web.bind.annotation.RequestParam
+import org.springframework.web.bind.annotation.ResponseBody
+import ru.vood.redisdemo.model.Movie
+import ru.vood.redisdemo.repository.RedisRepository
 
 @Controller
 @RequestMapping("/")
-public class WebController {
-
-    @Autowired
-    private RedisRepository redisRepository;
-
+class WebController(
+    private val redisRepository: RedisRepository
+    ) {
     @RequestMapping("/")
-    public String index() {
-        return "index";
+    fun index(): String {
+        return "index"
     }
 
     @RequestMapping("/keys")
-    public @ResponseBody Map<Object, Object> keys() {
-        return redisRepository.findAllMovies();
+    @ResponseBody
+    fun keys(): Map<Any, Any> {
+        return redisRepository.findAllMovies()
     }
 
     @RequestMapping("/values")
-    public @ResponseBody Map<String, String> findAll() {
-        Map<Object, Object> aa = redisRepository.findAllMovies();
-        Map<String, String> map = new HashMap<String, String>();
-        for (Map.Entry<Object, Object> entry : aa.entrySet()) {
-            String key = (String) entry.getKey();
-            map.put(key, aa.get(key).toString());
+    @ResponseBody
+    fun findAll(): Map<String, String> {
+        val aa = redisRepository.findAllMovies()
+        val map: MutableMap<String, String> = HashMap()
+        for ((key1) in aa) {
+            val key = key1 as String
+            map[key] = aa[key].toString()
         }
-        return map;
+        return map
     }
 
-    @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public ResponseEntity<String> add(
-            @RequestParam String key,
-            @RequestParam String value) {
-
-        Movie movie = new Movie(key, value);
-
-        redisRepository.add(movie);
-        return new ResponseEntity<>(HttpStatus.OK);
+    @RequestMapping(value = ["/add"], method = [RequestMethod.POST])
+    fun add(
+        @RequestParam key: String,
+        @RequestParam value: String
+    ): ResponseEntity<String> {
+        val movie = Movie(key, value)
+        redisRepository.add(movie)
+        return ResponseEntity(HttpStatus.OK)
     }
 
-    @RequestMapping(value = "/delete", method = RequestMethod.POST)
-    public ResponseEntity<String> delete(@RequestParam String key) {
-        redisRepository.delete(key);
-        return new ResponseEntity<>(HttpStatus.OK);
+    @RequestMapping(value = ["/delete"], method = [RequestMethod.POST])
+    fun delete(@RequestParam key: String): ResponseEntity<String> {
+        redisRepository.delete(key)
+        return ResponseEntity(HttpStatus.OK)
     }
 }
