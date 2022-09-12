@@ -1,6 +1,5 @@
-package ru.vood.redisdemo.queue;
+package ru.vood.redisdemo.queue
 
-public interface MessagePublisher {
-
-    void publish(final String message);
+interface MessagePublisher {
+    fun publish(message: String)
 }
