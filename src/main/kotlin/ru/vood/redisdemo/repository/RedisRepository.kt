@@ -1,29 +1,25 @@
-package ru.vood.redisdemo.repository;
+package ru.vood.redisdemo.repository
 
-import ru.vood.redisdemo.model.Movie;
+import ru.vood.redisdemo.model.Movie
 
-import java.util.Map;
-
-public interface RedisRepository {
-
+interface RedisRepository {
     /**
      * Return all movies
      */
-    Map<Object, Object> findAllMovies();
+    fun findAllMovies(): Map<Any, Any>
 
     /**
      * Add key-value pair to Redis.
      */
-    void add(Movie movie);
+    fun add(movie: Movie)
 
     /**
      * Delete a key-value pair in Redis.
      */
-    void delete(String id);
+    fun delete(id: String)
 
     /**
      * find a movie
      */
-    Movie findMovie(String id);
-
+    fun findMovie(id: String): Movie
 }

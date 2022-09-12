@@ -1,46 +1,39 @@
-package ru.vood.redisdemo.repository;
+package ru.vood.redisdemo.repository
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.HashOperations;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.stereotype.Repository;
-import ru.vood.redisdemo.model.Movie;
-
-import javax.annotation.PostConstruct;
-import java.util.Map;
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.redis.core.HashOperations
+import org.springframework.data.redis.core.RedisTemplate
+import org.springframework.stereotype.Repository
+import ru.vood.redisdemo.model.Movie
+import javax.annotation.PostConstruct
 
 @Repository
-public class RedisRepositoryImpl implements RedisRepository {
-    private static final String KEY = "Movie";
-
-    private RedisTemplate<String, Object> redisTemplate;
-    private HashOperations hashOperations;
-
-    @Autowired
-    public RedisRepositoryImpl(RedisTemplate<String, Object> redisTemplate) {
-        this.redisTemplate = redisTemplate;
-    }
+class RedisRepositoryImpl (private val redisTemplate: RedisTemplate<String, Any>) :
+    RedisRepository {
+    private lateinit var hashOperations: HashOperations<String, Any, Any>
 
     @PostConstruct
-    private void init() {
-        hashOperations = redisTemplate.opsForHash();
+    private fun init() {
+        hashOperations = redisTemplate.opsForHash<Any, Any>()
     }
 
-    public void add(final Movie movie) {
-        hashOperations.put(KEY, movie.getId(), movie.getName());
+    override fun add(movie: Movie) {
+        hashOperations.put(KEY, movie.id, movie.name)
     }
 
-    public void delete(final String id) {
-        hashOperations.delete(KEY, id);
+    override fun delete(id: String) {
+        hashOperations.delete(KEY, id)
     }
 
-    public Movie findMovie(final String id) {
-        return (Movie) hashOperations.get(KEY, id);
+    override fun findMovie(id: String): Movie {
+        return hashOperations.get(KEY, id) as Movie
     }
 
-    public Map<Object, Object> findAllMovies() {
-        return hashOperations.entries(KEY);
+    override fun findAllMovies(): Map<Any, Any> {
+        return hashOperations.entries(KEY)
     }
 
-
+    companion object {
+        private const val KEY = "Movie"
+    }
 }
