@@ -14,7 +14,7 @@ class RedisRepositoryImpl (private val redisTemplate: RedisTemplate<String, Any>
 
     @PostConstruct
     private fun init() {
-        hashOperations = redisTemplate.opsForHash<Any, Any>()
+        hashOperations = redisTemplate.opsForHash()
     }
 
     override fun add(movie: Movie) {
