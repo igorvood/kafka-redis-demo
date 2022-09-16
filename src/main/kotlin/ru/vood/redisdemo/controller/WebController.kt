@@ -14,7 +14,7 @@ import ru.vood.redisdemo.repository.RedisRepository
 @RequestMapping("/")
 class WebController(
     private val redisRepository: RedisRepository
-    ) {
+) {
     @RequestMapping("/")
     fun index(): String {
         return "index"

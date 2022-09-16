@@ -1,6 +1,5 @@
 package ru.vood.redisdemo.repository
 
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.redis.core.HashOperations
 import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.stereotype.Repository
@@ -8,7 +7,7 @@ import ru.vood.redisdemo.model.Movie
 import javax.annotation.PostConstruct
 
 @Repository
-class RedisRepositoryImpl (private val redisTemplate: RedisTemplate<String, Any>) :
+class RedisRepositoryImpl(private val redisTemplate: RedisTemplate<String, Any>) :
     RedisRepository {
     private lateinit var hashOperations: HashOperations<String, Any, Any>
 
