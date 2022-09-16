@@ -1,5 +1,6 @@
 package ru.vood.redisdemo.config
 
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.context.annotation.Configuration
@@ -16,17 +17,24 @@ import ru.vood.redisdemo.queue.MessageSubscriber
 @Configuration
 @ComponentScan("ru.vood")
 class RedisConfig {
+
+    @Value("\${spring.redis.password}")
+    lateinit var password: String
     @Bean
     fun jedisConnectionFactory(): JedisConnectionFactory {
-        val jedisConnectionFactory = JedisConnectionFactory()
-        jedisConnectionFactory.setPassword("qwerty123")
+        val jedisConnectionFactory: JedisConnectionFactory = JedisConnectionFactory()
+//        jedisConnectionFactory.setPassword("qwerty123")
+        jedisConnectionFactory.setPassword(password)
+
         return jedisConnectionFactory
     }
 
     @Bean
-    fun redisTemplate(): RedisTemplate<String, Any> {
+    fun redisTemplate(
+        jedisConnectionFactory: JedisConnectionFactory
+    ): RedisTemplate<String, Any> {
         val template = RedisTemplate<String, Any>()
-        template.setConnectionFactory(jedisConnectionFactory())
+        template.setConnectionFactory(jedisConnectionFactory)
         template.valueSerializer = GenericToStringSerializer(Any::class.java)
         return template
     }
@@ -37,16 +45,16 @@ class RedisConfig {
     }
 
     @Bean
-    fun redisContainer(): RedisMessageListenerContainer {
+    fun redisContainer(        jedisConnectionFactory: JedisConnectionFactory): RedisMessageListenerContainer {
         val container = RedisMessageListenerContainer()
-        container.setConnectionFactory(jedisConnectionFactory())
+        container.setConnectionFactory(jedisConnectionFactory)
         container.addMessageListener(messageListener(), topic())
         return container
     }
 
     @Bean
-    fun redisPublisher(): MessagePublisher {
-        return MessagePublisherImpl(redisTemplate(), topic())
+    fun redisPublisher(template: RedisTemplate<String, Any>): MessagePublisher {
+        return MessagePublisherImpl(template, topic())
     }
 
     @Bean
