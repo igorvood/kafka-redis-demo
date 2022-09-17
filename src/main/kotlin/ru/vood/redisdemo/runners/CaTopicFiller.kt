@@ -4,7 +4,7 @@ import org.springframework.boot.CommandLineRunner
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
 import ru.vood.redisdemo.kafka.KafKaProducerService
-import ru.vood.redisdemo.kafka.SomeData
+import ru.vood.redisdemo.kafka.dto.SomeData
 import java.util.Date
 
 @Service

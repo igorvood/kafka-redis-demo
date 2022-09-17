@@ -1,4 +1,4 @@
-package ru.vood.redisdemo.kafka
+package ru.vood.redisdemo.kafka.dto
 
 import com.fasterxml.jackson.annotation.JsonFormat
 import java.math.BigDecimal
@@ -12,4 +12,4 @@ data class SomeData(
     val date: Date = Date(),
     val int: Int = 12,
     val bigDecimal: BigDecimal = BigDecimal(12),
-)
+): DTO
