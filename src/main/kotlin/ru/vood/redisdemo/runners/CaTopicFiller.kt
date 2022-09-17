@@ -5,11 +5,12 @@ import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
 import ru.vood.redisdemo.kafka.KafKaProducerService
 import ru.vood.redisdemo.kafka.dto.SomeData
-import java.util.Date
+import java.util.*
 
 @Service
 class CaTopicFiller(
-    val kafKaProducerService: KafKaProducerService): CommandLineRunner  {
+    val kafKaProducerService: KafKaProducerService
+) : CommandLineRunner {
     override fun run(vararg args: String?) {
 
 //        IntRange(1,1000)
@@ -19,8 +20,9 @@ class CaTopicFiller(
 
 
     }
+
     @Scheduled(fixedDelay = 1000)
-    fun pereodicalSend(){
+    fun pereodicalSend() {
         val d = SomeData(Date().time)
 
         kafKaProducerService.sendMessage(d.id.toString(), d)

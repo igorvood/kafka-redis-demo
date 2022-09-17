@@ -3,11 +3,10 @@ package ru.vood.redisdemo.kafka.dto
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.KotlinFeature
 import com.fasterxml.jackson.module.kotlin.KotlinModule
-import com.fasterxml.jackson.module.kotlin.SingletonSupport
 
 object Converter {
 
-     val mapper = ObjectMapper().registerModule(
+    val mapper = ObjectMapper().registerModule(
         KotlinModule.Builder()
             .withReflectionCacheSize(512)
             .configure(KotlinFeature.NullToEmptyCollection, false)

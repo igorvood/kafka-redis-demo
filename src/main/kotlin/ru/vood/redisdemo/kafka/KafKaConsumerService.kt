@@ -12,12 +12,12 @@ import java.lang.String
 @Service
 class KafKaConsumerService(
 
-): KafKaConsumerSrv<SomeData>
-{
+) : KafKaConsumerSrv<SomeData> {
 
     private val logger: Logger = LoggerFactory.getLogger(KafKaProducerService::class.java)
 
-    @KafkaListener(topics = [CA_TOPIC_NAME]        , groupId = AppConstants.GROUP_ID
+    @KafkaListener(
+        topics = [CA_TOPIC_NAME], groupId = AppConstants.GROUP_ID
     )
     fun consume(user: kotlin.String) {
         val convertFromJson = user.fromJson<SomeData>()

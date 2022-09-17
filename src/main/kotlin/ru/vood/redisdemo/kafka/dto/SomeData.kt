@@ -12,4 +12,4 @@ data class SomeData(
     val date: Date = Date(),
     val int: Int = 12,
     val bigDecimal: BigDecimal = BigDecimal(12),
-): DTO
+) : JsonDto
