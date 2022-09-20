@@ -8,13 +8,13 @@ import ru.vood.redisdemo.kafka.dto.JsonDto
 
 @Service
 class KafKaProducerService(
-    val kafkaTemplate: KafkaTemplate<String, String>,
+    override val kafkaTemplate: KafkaTemplate<String, String>,
 //     override val dtoToJsonConverter: DtoToJsonConverter<SomeData>
 ) : KafKaProducerSrv {
 
     override fun sendMessage(key: String, message: JsonDto) {
         val convertToJson = message.toJson()
-        logger.info(String.format("Message sent -> %s", convertToJson))
+//        logger.info(String.format("Message sent -> %s", convertToJson))
         this.kafkaTemplate.send(CA_TOPIC_NAME, key, convertToJson)
 
     }

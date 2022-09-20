@@ -17,10 +17,11 @@ class KafKaConsumerService(
     private val logger: Logger = LoggerFactory.getLogger(KafKaProducerService::class.java)
 
     @KafkaListener(
-        topics = [CA_TOPIC_NAME], groupId = AppConstants.GROUP_ID
+        topics = [CA_TOPIC_NAME]
+        , groupId = AppConstants.GROUP_ID
     )
     fun consume(user: kotlin.String) {
         val convertFromJson = user.fromJson<SomeData>()
-        logger.info(String.format("User created -> %s", convertFromJson))
+//        logger.info(String.format("User created -> %s", convertFromJson))
     }
 }
