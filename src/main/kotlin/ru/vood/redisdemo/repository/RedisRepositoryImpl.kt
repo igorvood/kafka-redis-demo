@@ -8,7 +8,8 @@ import javax.annotation.PostConstruct
 
 @Repository
 class RedisRepositoryImpl(
-    private val redisTemplate: RedisTemplate<String, Any>) :
+    private val redisTemplate: RedisTemplate<String, Any>
+) :
     RedisRepository {
     private lateinit var hashOperations: HashOperations<String, Any, Any>
 
